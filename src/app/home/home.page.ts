@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { runInThisContext } from 'vm';
+//import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-home',
