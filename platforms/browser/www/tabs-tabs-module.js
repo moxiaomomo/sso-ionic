@@ -56,7 +56,7 @@ var AboutPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>About</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content></ion-content>\n"
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>About</ion-title>\n  </ion-toolbar>\n</ion-header> \n\n<!-- <ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name=\"menu\"></ion-icon>\n    </button>\n      <ion-title>Panorama</ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content overflow-scroll=\"true\">\n  <div>\n      <div [innerHTML]=\"myVal\"></div>\n\n  </div>\n\n</ion-content> -->"
 
 /***/ }),
 
@@ -92,6 +92,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var AboutPage = /** @class */ (function () {
     function AboutPage() {
     }
+    AboutPage.prototype.openLink = function (url) {
+        window.open(url, '_self', 'location=no');
+    };
     AboutPage = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-about',
@@ -228,12 +231,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _home_page__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./home.page */ "./src/app/home/home.page.ts");
+/* harmony import */ var _pipe_safe_pipe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pipe/safe.pipe */ "./src/app/home/pipe/safe.pipe.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -251,7 +256,7 @@ var HomePageModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
                 _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forChild([{ path: '', component: _home_page__WEBPACK_IMPORTED_MODULE_5__["HomePage"] }])
             ],
-            declarations: [_home_page__WEBPACK_IMPORTED_MODULE_5__["HomePage"]]
+            declarations: [_home_page__WEBPACK_IMPORTED_MODULE_5__["HomePage"], _pipe_safe_pipe__WEBPACK_IMPORTED_MODULE_6__["SafePipe"]]
         })
     ], HomePageModule);
     return HomePageModule;
@@ -268,7 +273,7 @@ var HomePageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Home</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  The world is your oyster.\n  <p>If you get lost, the <a target=\"_blank\" rel=\"noopener\" href=\"https://ionicframework.com/docs\">docs</a> will be your guide.</p>\n</ion-content>\n"
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Home</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <div>\n    <ion-label>用户名：<strong><span style=\"color:green\">{{openid}}</span></strong></ion-label><br>\n    <ion-button block href=\"/login\">SSO登录</ion-button>\n  </div>\n</ion-content>"
 
 /***/ }),
 
@@ -294,24 +299,102 @@ module.exports = ""
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomePage", function() { return HomePage; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _ionic_native_app_minimize_ngx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic-native/app-minimize/ngx */ "./node_modules/@ionic-native/app-minimize/ngx/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+//import { runInThisContext } from 'vm';
 
 var HomePage = /** @class */ (function () {
-    function HomePage() {
+    function HomePage(nav, route, appMinimize) {
+        this.nav = nav;
+        this.route = route;
+        this.appMinimize = appMinimize;
     }
+    HomePage.prototype.ngOnInit = function () {
+        var oid = this.route.snapshot.paramMap.get('openid');
+        if (oid) {
+            this.openid = oid;
+        }
+        else {
+            this.openid = "未登录";
+        }
+    };
     HomePage = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-home',
             template: __webpack_require__(/*! ./home.page.html */ "./src/app/home/home.page.html"),
-            styles: [__webpack_require__(/*! ./home.page.scss */ "./src/app/home/home.page.scss")]
-        })
+            styles: [__webpack_require__(/*! ./home.page.scss */ "./src/app/home/home.page.scss")],
+            providers: [_ionic_native_app_minimize_ngx__WEBPACK_IMPORTED_MODULE_3__["AppMinimize"]]
+        }),
+        __metadata("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_1__["NavController"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _ionic_native_app_minimize_ngx__WEBPACK_IMPORTED_MODULE_3__["AppMinimize"]])
     ], HomePage);
     return HomePage;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/home/pipe/safe.pipe.ts":
+/*!****************************************!*\
+  !*** ./src/app/home/pipe/safe.pipe.ts ***!
+  \****************************************/
+/*! exports provided: SafePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SafePipe", function() { return SafePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * safe管道
+ * 将url转换为angular 中 iframe可以识别的安全url链接
+ *
+ * @export
+ * @class SafePipe
+ * @implements {PipeTransform}
+ */
+var SafePipe = /** @class */ (function () {
+    function SafePipe(sanitizer) {
+        this.sanitizer = sanitizer;
+    }
+    //Angular 2 中提供的 DomSanitizer 服务，可以让url变得安全
+    SafePipe.prototype.transform = function (url) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    };
+    SafePipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: "safe"
+        }),
+        __metadata("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["DomSanitizer"]])
+    ], SafePipe);
+    return SafePipe;
 }());
 
 
@@ -383,7 +466,7 @@ var TabsPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-tabs>\n\n  <ion-tab tab=\"home\">\n    <ion-router-outlet name=\"home\"></ion-router-outlet>\n  </ion-tab>\n  <ion-tab tab=\"about\">\n    <ion-router-outlet name=\"about\"></ion-router-outlet>\n  </ion-tab>\n  <ion-tab tab=\"contact\">\n    <ion-router-outlet name=\"contact\"></ion-router-outlet>\n  </ion-tab>\n\n  <ion-tab-bar slot=\"bottom\">\n\n    <ion-tab-button tab=\"home\" href=\"/tabs/(home:home)\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"about\" href=\"/tabs/(about:about)\">\n      <ion-icon name=\"information-circle\"></ion-icon>\n      <ion-label>About</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"contact\" href=\"/tabs/(contact:contact)\">\n      <ion-icon name=\"contacts\"></ion-icon>\n      <ion-label>Contact</ion-label>\n    </ion-tab-button>\n\n  </ion-tab-bar>\n\n</ion-tabs>\n"
+module.exports = "<ion-tabs>\n\n  <ion-tab tab=\"home\">\n    <ion-router-outlet name=\"home\"></ion-router-outlet>\n  </ion-tab>\n  <ion-tab tab=\"about\">\n    <ion-router-outlet name=\"about\"></ion-router-outlet>\n  </ion-tab>\n  <ion-tab tab=\"contact\">\n    <ion-router-outlet name=\"contact\"></ion-router-outlet>\n  </ion-tab>\n\n  <ion-tab-bar slot=\"bottom\">\n\n    <ion-tab-button tab=\"home\" href=\"/tabs/(home:home)\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"about\" href=\"/tabs/(about:about)\">\n      <ion-icon name=\"information-circle\"></ion-icon>\n      <ion-label>About</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"contact\" href=\"/tabs/(contact:contact)\">\n      <ion-icon name=\"contacts\"></ion-icon>\n      <ion-label>Contact</ion-label>\n    </ion-tab-button>\n\n    <!-- <ion-tab-button tab=\"browser\" href=\"/tabs/(browser:browser)\">\n      <ion-icon name=\"browsers\"></ion-icon>\n      <ion-label>Browser</ion-label>\n    </ion-tab-button> -->\n    \n  </ion-tab-bar>\n\n</ion-tabs>\n"
 
 /***/ }),
 
@@ -461,13 +544,14 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+//import { LoginPage } from '../login/login.page';
 var routes = [
     {
         path: 'tabs',
         component: _tabs_page__WEBPACK_IMPORTED_MODULE_2__["TabsPage"],
         children: [
             {
-                path: '',
+                path: '/:openid',
                 redirectTo: '/tabs/(home:home)',
                 pathMatch: 'full',
             },
@@ -490,6 +574,11 @@ var routes = [
     },
     {
         path: '',
+        redirectTo: '/tabs/(home:home)',
+        pathMatch: 'full'
+    },
+    {
+        path: '/',
         redirectTo: '/tabs/(home:home)',
         pathMatch: 'full'
     }

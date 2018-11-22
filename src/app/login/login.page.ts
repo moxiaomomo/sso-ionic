@@ -13,7 +13,7 @@ export class LoginPage implements OnInit {
   
   constructor(private sanitizer: DomSanitizer) {
     //this.orbitUrl = "http://localhost:18082";
-    //this.orbitUrl = "https://account.giricloud.com?service=http://localhost:18082/shiro-cas";
-    this.orbitUrl = "http://localhost:18091/applogin";
+    //this.orbitUrl = "https://taccount.giricloud.com?service=https://ssomesapi.giricloud.com/shiro-cas";
+    this.orbitUrl = "https://ssomesapi.giricloud.com/ssologin";
   }
 }

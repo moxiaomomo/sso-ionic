@@ -49,6 +49,14 @@ module.exports = [
         "id": "cordova-plugin-statusbar.StatusBarProxy",
         "pluginId": "cordova-plugin-statusbar",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-appminimize/www/AppMinimize.js",
+        "id": "cordova-plugin-appminimize.AppMinimize",
+        "pluginId": "cordova-plugin-appminimize",
+        "clobbers": [
+            "cordova.plugins.appMinimize"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -59,7 +67,8 @@ module.exports.metadata =
     "cordova-plugin-ionic-webview": "2.2.0",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
-    "cordova-plugin-whitelist": "1.3.3"
+    "cordova-plugin-whitelist": "1.3.3",
+    "cordova-plugin-appminimize": "1.0"
 }
 // BOTTOM OF METADATA
 });

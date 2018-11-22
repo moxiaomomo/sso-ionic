@@ -2,16 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 //import { runInThisContext } from 'vm';
+import {AppMinimize} from "@ionic-native/app-minimize/ngx";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss']
+  styleUrls: ['home.page.scss'],
+  providers:[AppMinimize]
 })
 export class HomePage implements OnInit {
   public openid: string;
 
-  constructor(public nav:NavController, public route:ActivatedRoute){
+  constructor(public nav:NavController, 
+    public route:ActivatedRoute, 
+    private appMinimize: AppMinimize,){
   }
 
   ngOnInit() {

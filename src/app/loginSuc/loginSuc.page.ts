@@ -10,6 +10,7 @@ import {Platform} from '@ionic/angular';
 })
 export class LoginSucPage implements OnInit {
   public openid: string;
+  public logouturl: string;
 
   constructor(private sanitizer: DomSanitizer, public route:ActivatedRoute, public platform:Platform) {
   }
@@ -22,5 +23,11 @@ export class LoginSucPage implements OnInit {
     } else {
       this.openid = "未登录";
     }
+
+    this.logouturl = "https://ssomesapi.giricloud.com/ssologout?callbackUrl=http://localhost:8100/"
+  }
+
+  onLogout() {
+
   }
 }
