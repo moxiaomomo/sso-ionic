@@ -24,10 +24,6 @@ export class LoginSucPage implements OnInit {
       this.openid = "未登录";
     }
 
-    this.logouturl = "https://ssomesapi.giricloud.com/ssologout?callbackUrl=http://localhost:8100/"
-  }
-
-  onLogout() {
-
+    this.logouturl = "http://localhost:18082/ssologout?callbackUrl=http://localhost:8100/"
   }
 }
